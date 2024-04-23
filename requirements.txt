@@ -1,5 +1,6 @@
 Flask==2.3.3
-SQLAlchemy==2.0.29
+flask_login
+flask_sqlalchemy
 numpy
 pandas
 matplotlib
