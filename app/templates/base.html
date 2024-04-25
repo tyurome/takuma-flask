@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>
+            <!-- 継承先で定義したい内容は、block ○○ ～ endblockとする -->
+            {% block title %}
+            MyPage
+            {% endblock %}
+        </title>
+    </head>
+    <body>
+        <header>
+            <p>flask - webpage</p>
+        </header>
+        {% block content %} 
+        {% endblock %}
+    </body>
+</html>
