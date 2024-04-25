@@ -1,1 +1,3 @@
 Pythonを用いたWeb開発講義資料
+現状はDocker環境を想定、requirements.txtをpip installして生でmain.pyを叩けばローカル
+検証済みpython verは3.11
