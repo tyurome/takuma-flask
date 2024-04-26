@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>ユーザ登録</h1>
-<form method="POST" action="{{ url_for('register') }}">
+<form method="POST" action="{{ url_for('main.register') }}">
     <label for="">ユーザ名</label>
     <input type="text" name="username">
     <label for="">パスワード</label>
