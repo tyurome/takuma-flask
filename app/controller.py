@@ -60,6 +60,7 @@ def logout():
 
 @main.route('/home')
 @login_required
-def show_name():
+def home():
     #ログイン情報から、Userクラスのusernameを取得
-    return 'Logged in as: ' + current_user.username
+    showname = 'Logged in as: ' + current_user.username
+    return render_template('home.html' , showname=showname)
