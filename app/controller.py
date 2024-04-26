@@ -17,7 +17,7 @@ main = Blueprint('main', __name__)
 @main.route('/')
 def index():
     #ルートディレクトリにアクセスした場合、loginページにリダイレクト
-    return redirect(url_for('main.register'))
+    return redirect('register')
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
@@ -28,18 +28,18 @@ def register():
 
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
-            # ユーザが既に存在する場合は、エラーメッセージを表示
+            # ユーザが既に存在する場合は、エラーメッセージを表示　→　base.htmlに代入
             flash('ユーザが既に存在します。')
             return render_template('register.html')
         
-        #Userクラスのインスタンスを生成し、ORMで紐づけ
+        #ORMでUserクラスのインスタンスに入力情報を格納
         user = User(username=username, password=generate_password_hash(password, method='pbkdf2:sha256'))
         #インスタンスに基づきDBに登録
         db.session.add(user)
         #DBに反映
         db.session.commit()
         #登録後は、loginページにリダイレクト
-        return redirect(url_for('main.login'))
+        return redirect('login')
     else:
         #GETがない（＝登録時でない）場合は、テンプレートエンジンを使って、/app/templates内のregister.htmlを表示
         return render_template('register.html')
@@ -49,24 +49,27 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-
+        #ORMでユーザ名を検索
         user = User.query.filter_by(username=username).first() #ユーザ名がユニークなのでfirst（検索時の一番上）指定
-        if check_password_hash(user.password, password): #ハッシュ化されたパスワードをチェック
-            #Flask-Loginのlogin_user()を使用して、セッション情報を設定
-            login_user(user)
-            return redirect('home')
+        #ユーザが存在した場合
+        if user:
+            if check_password_hash(user.password, password): #ハッシュ化されたパスワードをチェック
+                #Flask-Loginのlogin_user()を使用して、セッション情報を設定
+                login_user(user)
+                return redirect('home')
+            else:
+                flash('パスワードが間違っています。')
         else:
-            flash('パスワードが間違っています。')
-            return render_template('login.html')
-    else:
-        return render_template('login.html')
+            flash('ユーザが存在しません。')
+
+    return render_template('login.html')
 
 @main.route('/logout')
 @login_required #ログインを必須条件にする
 def logout():
     #Flask-Loginのlogout_user()を使用して、セッション情報を削除
     logout_user()
-    return redirect(url_for('main.login'))
+    return redirect('login')
 
 @main.route('/home')
 @login_required
