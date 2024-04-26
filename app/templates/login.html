@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <h1>login</h1>
 <form method="POST" action="{{ url_for('main.login') }}">
     <label for="">ユーザ名</label>
@@ -8,4 +9,5 @@
     <input type="password" name="password">
     <input type="submit" value="login">
 </form>
+<button onclick="location.href='register'">新規登録</button>
 {% endblock %}
