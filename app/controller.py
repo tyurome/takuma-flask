@@ -65,7 +65,7 @@ def login():
     return render_template('login.html')
 
 @main.route('/logout')
-@login_required #ログインを必須条件にする
+@login_required #ログインを必須条件にする,flashメッセージが表示される
 def logout():
     #Flask-Loginのlogout_user()を使用して、セッション情報を削除
     logout_user()
